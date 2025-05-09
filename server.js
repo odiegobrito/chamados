@@ -11,56 +11,58 @@ const port = 3001;
 app.use(bodyParser.json());
 app.use(cors());
 
-// Criar a tabela chamados se ela não existir
+// Criar a tabela chamados se ela não existir, adicionando os novos campos
 db.run(`
-  CREATE TABLE IF NOT EXISTS chamados (
-    id TEXT PRIMARY KEY,
-    nivel TEXT,
-    responsavel TEXT,
-    endereco TEXT,
-    descricao TEXT,
-    dataAbertura TEXT
-  )
+    CREATE TABLE IF NOT EXISTS chamados (
+        id TEXT PRIMARY KEY,
+        nomeSolicitante TEXT,
+        tipoServico TEXT,
+        nivel TEXT,
+        responsavel TEXT,
+        endereco TEXT,
+        descricao TEXT,
+        dataAbertura TEXT
+    )
 `);
 
 // Rota para receber a submissão de um novo chamado
 app.post('/api/chamados', (req, res) => {
-  const { nivel, responsavel, endereco, descricao } = req.body;
-  const id = `CH${uuidv4().slice(0, 6).toUpperCase()}`;
-  const dataAbertura = new Date().toISOString();
+    const { nomeSolicitante, tipoServico, nivel, responsavel, endereco, descricao } = req.body;
+    const id = `CH${uuidv4().slice(0, 6).toUpperCase()}`;
+    const dataAbertura = new Date().toISOString();
 
-  db.run(
-    'INSERT INTO chamados (id, nivel, responsavel, endereco, descricao, dataAbertura) VALUES (?, ?, ?, ?, ?, ?)',
-    [id, nivel, responsavel, endereco, descricao, dataAbertura],
-    function(err) {
-      if (err) {
-        console.error('Erro ao inserir chamado:', err);
-        return res.status(500).json({ error: 'Erro ao salvar o chamado no banco de dados.' });
-      }
-      db.get('SELECT * FROM chamados WHERE id = ?', [id], (err, row) => {
-        if (err) {
-          console.error('Erro ao buscar chamado após inserção:', err);
-          return res.status(500).json({ error: 'Erro ao buscar o chamado do banco de dados.' });
+    db.run(
+        'INSERT INTO chamados (id, nomeSolicitante, tipoServico, nivel, responsavel, endereco, descricao, dataAbertura) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [id, nomeSolicitante, tipoServico, nivel, responsavel, endereco, descricao, dataAbertura],
+        function(err) {
+            if (err) {
+                console.error('Erro ao inserir chamado:', err);
+                return res.status(500).json({ error: 'Erro ao salvar o chamado no banco de dados.' });
+            }
+            db.get('SELECT * FROM chamados WHERE id = ?', [id], (err, row) => {
+                if (err) {
+                    console.error('Erro ao buscar chamado após inserção:', err);
+                    return res.status(500).json({ error: 'Erro ao buscar o chamado do banco de dados.' });
+                }
+                res.status(201).json(row);
+            });
         }
-        res.status(201).json(row);
-      });
-    }
-  );
+    );
 });
 
 // Rota para obter todos os chamados
 app.get('/api/chamados', (req, res) => {
-  db.all('SELECT * FROM chamados ORDER BY dataAbertura DESC', (err, rows) => {
-    if (err) {
-      console.error('Erro ao buscar chamados:', err);
-      return res.status(500).json({ error: 'Erro ao buscar os chamados do banco de dados.' });
-    }
-    res.json(rows);
-  });
+    db.all('SELECT * FROM chamados ORDER BY dataAbertura DESC', (err, rows) => {
+        if (err) {
+            console.error('Erro ao buscar chamados:', err);
+            return res.status(500).json({ error: 'Erro ao buscar os chamados do banco de dados.' });
+        }
+        res.json(rows);
+    });
 });
 
 app.listen(port, () => {
-  console.log(`Servidor backend rodando na porta http://localhost:${port}`);
+    console.log(`Servidor backend rodando na porta http://localhost:${port}`);
 });
 
 // Rota para excluir um chamado
@@ -77,4 +79,5 @@ app.delete('/api/chamados/:id', (req, res) => {
             res.status(404).json({ message: `Chamado #${idParaExcluir} não encontrado.` });
         }
     });
+    console.log(row)
 });
