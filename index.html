@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Chamados - MEC TECNOLOGIA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+       tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bdd7ff',
+                            300: '#9eceff',
+                            400: '#60a5fa', // Nosso azul claro
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans m-0 md:m-5 bg-gray-100 text-gray-800">
+
+    <header class="bg-white p-5 md:p-6 rounded-lg shadow-lg mb-5 md:mb-6 mx-auto max-w-2xl flex items-center justify-center">
+        <div class="text-center">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-700 mb-1">MEC TECNOLOGIA</h1>
+            <p class="text-sm text-gray-500">Sistema de Gerenciamento de Chamados</p>
+        </div>
+        </header>
+
+    <div class="bg-white p-5 md:p-6 rounded-lg shadow-lg mb-5 md:mb-6 mx-auto max-w-2xl">
+        <h2 class="text-xl md:text-2xl font-semibold text-gray-700 mb-4">Abrir Novo Chamado</h2>
+        <form id="formNovoChamado" class="space-y-4">
+            <div>
+                <label for="nivelChamado" class="block mb-1 font-bold text-sm text-gray-600">Nível do Chamado:</label>
+                <select id="nivelChamado" name="nivelChamado" required
+                        class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-sm">
+                    <option value="">Selecione o Nível</option>
+                    <option value="alto">Alto</option>
+                    <option value="medio">Médio</option>
+                    <option value="baixo">Baixo</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="nomeResponsavel" class="block mb-1 font-bold text-sm text-gray-600">Nome do Responsável (Técnico):</label>
+                <input type="text" id="nomeResponsavel" name="nomeResponsavel" placeholder="Digite o nome do técnico responsável" required
+                       class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-sm placeholder-gray-400">
+            </div>
+
+            <div>
+                <label for="enderecoLocal" class="block mb-1 font-bold text-sm text-gray-600">Endereço/Local do Chamado:</label>
+                <input type="text" id="enderecoLocal" name="enderecoLocal" placeholder="Ex: Bloco A, Sala 101 ou Rua Exemplo, 123" required
+                       class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-sm placeholder-gray-400">
+            </div>
+
+            <div>
+                <label for="descricaoOcorrido" class="block mb-1 font-bold text-sm text-gray-600">Descrição do Ocorrido:</label>
+                <textarea id="descricaoOcorrido" name="descricaoOcorrido" placeholder="Descreva detalhadamente o problema ou solicitação" required
+                          class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 text-sm resize-y min-h-[100px] placeholder-gray-400"></textarea>
+            </div>
+
+            <button type="submit" id="btnAbrirChamado"
+                    class="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-4 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 transition duration-150 ease-in-out">
+                Abrir Chamado
+            </button>
+        </form>
+        <div id="mensagemStatus" class="mt-4 text-sm"></div>
+    </div>
+
+    <div class="bg-white p-5 md:p-6 rounded-lg shadow-lg mx-auto max-w-2xl">
+        <h2 class="text-xl md:text-2xl font-semibold text-gray-700 mb-4">Chamados Abertos</h2>
+        <div id="listaChamados" class="space-y-3">
+            </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

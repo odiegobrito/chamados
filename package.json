@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mongodb": "^6.16.0",
+    "pg": "^8.15.6",
+    "sqlite3": "^5.1.7",
+    "uuid": "^11.1.0"
+  }
+}
